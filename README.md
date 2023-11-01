@@ -1,4 +1,5 @@
-# tip_calculator_flutter
+# The Flutter Way
+# Tip Calculator 
 
 Getting Started With Flutter
 
