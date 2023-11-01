@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'app_strings.dart';
 import 'app_logic.dart';
+import 'text_styles.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,7 +33,10 @@ class _TipCalculatorState extends State<TipCalculator> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(appStrings['appTitle']!),
+        title: Text(
+          appStrings['appTitle']!,
+          style: CustomTextStyles.textStyle24Bold
+        ),
         centerTitle: true,
       ),
       body: Center(
@@ -41,7 +45,10 @@ class _TipCalculatorState extends State<TipCalculator> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(appStrings['billAmount']!),
+              Text(
+                appStrings['billAmount']!,
+                style: CustomTextStyles.textStyle20SemiBold
+              ),
               TextField(
                 keyboardType: TextInputType.number,
                 controller: billAmountController,
@@ -51,8 +58,11 @@ class _TipCalculatorState extends State<TipCalculator> {
                   });
                 },
               ),
-              const Padding(padding:EdgeInsets.symmetric(vertical: 20.0)),
-              Text('${appStrings['selectTipPercentage']} ${logic.tipPercentage.toStringAsFixed(0)}%'),
+              const Padding(padding: EdgeInsets.symmetric(vertical: 20.0)),
+              Text(
+                '${appStrings['selectTipPercentage']} ${logic.tipPercentage.toStringAsFixed(0)}%',
+                style: CustomTextStyles.textStyle20SemiBold
+              ),
               Slider(
                 value: logic.tipPercentage,
                 min: 0,
@@ -64,20 +74,37 @@ class _TipCalculatorState extends State<TipCalculator> {
                   });
                 },
               ),
-              const Padding(padding:EdgeInsets.symmetric(vertical: 20.0)),
+              const Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(appStrings['tip']!),
-                  Text(logic.calculateTipAmount().toStringAsFixed(2)),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: Text(
+                      appStrings['tip']!,
+                      style: CustomTextStyles.textStyle24Bold
+                    ),
+                  ),
+                  Text(logic.calculateTipAmount().toStringAsFixed(2),
+                    style: CustomTextStyles.textStyle24Bold
+                  ),
                 ],
               ),
-              const Padding(padding:EdgeInsets.symmetric(vertical: 20.0)),
+              const Padding(padding: EdgeInsets.symmetric(vertical: 10.0)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(appStrings['total']!),
-                  Text(logic.calculateTotalAmount().toStringAsFixed(2)),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: Text(
+                      appStrings['total']!,
+                      style: CustomTextStyles.textStyle24Bold
+                    ),
+                  ),
+                  Text(
+                    logic.calculateTotalAmount().toStringAsFixed(2),
+                    style: CustomTextStyles.textStyle24Bold
+                  ),
                 ],
               ),
             ],
