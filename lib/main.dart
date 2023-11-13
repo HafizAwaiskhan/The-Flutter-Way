@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tip_calculator_flutter/simple_calculator.dart';
 import 'app_strings.dart';
 import 'app_logic.dart';
 import 'grocery_list_view.dart';
@@ -29,7 +30,7 @@ class CustomApp extends StatelessWidget {
     return Scaffold(
       appBar: buildAppBar(),
       // body: TipCalculatorBody(billAmountController: billAmountController,logic: logic), // Use the GroceryListView here
-      body: const GroceryListView(),
+      body: const CalculatorScreen(),
     );
   }
 

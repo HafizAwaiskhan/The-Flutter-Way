@@ -10,5 +10,9 @@ class CustomTextStyles {
     fontSize: 20.0,
     fontWeight: FontWeight.w600,
   );
+  static final textStyle14Regular = GoogleFonts.roboto(
+    fontSize: 14.0,
+    fontWeight: FontWeight.w400,
+  );
 }
 
