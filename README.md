@@ -1,10 +1,16 @@
 # The Flutter Way
 - A Comprehensive Flutter and Dart Components Project.
 
-# Tip Calculator 
-This section of the project focuses on building a Tip Calculator. It offers the following features:
+# All Features 
+This section of the project has the following features:
+# Tip Calculator
 - Calculate tips in multiples of 3.
 - Get the total bill amount.
+# List view & Grid view
+- List view & Grid View
+- Adding list dynamically
+# Simple Calculator
+- Add , Subtract , Multiply , Divide , Toast
 
 Getting Started With Flutter
 
