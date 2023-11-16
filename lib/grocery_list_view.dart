@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tip_calculator_flutter/app_strings.dart';
 import 'package:tip_calculator_flutter/text_styles.dart';
 import 'button_styles.dart';
+import 'main.dart';
 
 class GroceryListView extends StatefulWidget {
   const GroceryListView({super.key});
@@ -13,19 +15,20 @@ class _GroceryListViewState extends State<GroceryListView> {
   final TextEditingController _listSizeController = TextEditingController();
   List<String> groceryList = [];
   bool isGrid = false;
-  String buttonText = "Generate List";
+  String buttonText = appStrings['generateList']!;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.cyanAccent,
+    return Scaffold(
+        appBar: CustomApp.buildAppBar("List/Grid View"),
+    body: Container(
       child: Column(
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
               controller: _listSizeController,
-              decoration: const InputDecoration(labelText: 'Enter list size'),
+              decoration: InputDecoration(labelText: appStrings['enterListSize']),
               keyboardType: TextInputType.number,
             ),
           ),
@@ -43,6 +46,7 @@ class _GroceryListViewState extends State<GroceryListView> {
           ),
         ],
       ),
+    ),
     );
   }
 
@@ -56,10 +60,10 @@ class _GroceryListViewState extends State<GroceryListView> {
           // Toggle between list and grid layouts
           isGrid = !isGrid;
           // Change button text accordingly
-          buttonText = isGrid ? "Switch to List view" : "Switch to Grid layout";
+          buttonText = (isGrid ? appStrings['switchToListView'] : appStrings['switchToGridView'])!;
         });
       },
-      style: ButtonStyles.primaryButtonStyle(Colors.green),
+      style: ButtonStyles.primaryButtonStyle(Colors.blue),
       child: Text(buttonText),
     );
   }
@@ -81,16 +85,17 @@ class _GroceryListViewState extends State<GroceryListView> {
       itemBuilder: (context, index) {
         return Card(
           margin: const EdgeInsets.all(8.0),
+          color: Colors.lightBlueAccent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0), // Adjust the radius as needed
           ),
-          color: Colors.white, // White background color
           child: ListTile(
             title: Text(groceryList[index],
-                style: CustomTextStyles.textStyle24Bold),
-            trailing: const Icon(Icons.star),
-            subtitle: Text("This is our description ${groceryList[index]}",
-                style: CustomTextStyles.textStyle14Regular),
+                style: CustomTextStyles.textStyle24BoldWhite),
+            trailing: const Icon(Icons.star,size: 48.0, color: Colors.white),
+            subtitle: Text(
+                '${appStrings['itemDescription']} ${groceryList[index]}',
+                style: CustomTextStyles.textStyle14RegularWhite),
           ),
         );
       },
@@ -109,19 +114,21 @@ class _GroceryListViewState extends State<GroceryListView> {
       itemBuilder: (context, index) {
         return Card(
           margin: const EdgeInsets.all(8.0),
+          color: Colors.lightBlueAccent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0), // Adjust the radius as needed
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Icon(Icons.star, size: 48.0, color: Colors.blue),
+              const Icon(Icons.star, size: 48.0, color: Colors.white),
               Text(groceryList[index],
-                  style: CustomTextStyles.textStyle24Bold),
+                  style: CustomTextStyles.textStyle24BoldWhite,
+                ),
               Text(
-                  "This is our description ${groceryList[index]}",
+                  '${appStrings['itemDescription']} ${groceryList[index]}',
                   textAlign: TextAlign.center,
-              style: CustomTextStyles.textStyle14Regular
+              style: CustomTextStyles.textStyle14RegularWhite
               ),
             ],
           ),

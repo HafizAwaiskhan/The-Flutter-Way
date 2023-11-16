@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tip_calculator_flutter/text_styles.dart';
-import 'app_logic.dart';
+import 'main.dart';
+import 'tip_calculator_logic.dart';
 import 'app_strings.dart';
 
 class TipCalculatorBody extends StatelessWidget {
@@ -14,7 +15,9 @@ class TipCalculatorBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Scaffold(
+        appBar: CustomApp.buildAppBar("Tip Calculator"),
+    body: Center(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -81,6 +84,7 @@ class TipCalculatorBody extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

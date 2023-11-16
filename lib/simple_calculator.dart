@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tip_calculator_flutter/app_strings.dart';
+import 'package:tip_calculator_flutter/tip_calculator_logic.dart';
 import 'package:tip_calculator_flutter/toast_helper.dart';
+
+import 'main.dart';
 
 class CalculatorScreen extends StatefulWidget {
   const CalculatorScreen({super.key});
@@ -16,7 +20,9 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Scaffold(
+      appBar: CustomApp.buildAppBar("Simple Calculator"),
+        body: Container(
       child: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
@@ -25,7 +31,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
             TextField(
               controller: _num1Controller,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Enter first number'),
+              decoration: InputDecoration(labelText: appStrings['enterFirstNumber']!),
             ),
             SizedBox(height: 4.0),
             Row(
@@ -41,22 +47,23 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
             TextField(
               controller: _num2Controller,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Enter second number'),
+              decoration: InputDecoration(labelText: appStrings['enterSecondNumber']!),
             ),
             SizedBox(height: 4.0),
             ElevatedButton(
               onPressed: _calculate,
-              child: Text('Calculate'),
+              child: Text(appStrings['calculate']!),
             ),
             SizedBox(height: 4.0),
             TextField(
               controller: _resultController,
               readOnly: true,
-              decoration: InputDecoration(labelText: 'Result'),
+              decoration: InputDecoration(labelText: appStrings['result']!),
             ),
           ],
         ),
       ),
+    ),
     );
   }
 
@@ -72,43 +79,16 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   }
 
   void _calculate() {
-    String num1Text = _num1Controller.text;
-    String num2Text = _num2Controller.text;
+    // Create an instance of SimpleCalculatorLogic
+    SimpleCalculatorLogic calculatorLogic = SimpleCalculatorLogic();
 
-    // Check for empty values
-    if (num1Text.isEmpty) {
-      ToastHelper.showToast(context, 'Please Enter 1st value');
-      return;
-    }
-    if (num2Text.isEmpty) {
-      ToastHelper.showToast(context, 'Please Enter 2nd value');
-      return;
-    }
-
-    double num1 = double.tryParse(num1Text) ?? 0.0;
-    double num2 = double.tryParse(num2Text) ?? 0.0;
-    double result;
-
-    if (_operator == '') {
-      ToastHelper.showToast(context, 'Please Select some operator!!');
-    } else {
-      switch (_operator) {
-        case "+":
-          result = num1 + num2;
-          break;
-        case "-":
-          result = num1 - num2;
-          break;
-        case "*":
-          result = num1 * num2;
-          break;
-        case "/":
-          result = num2 != 0 ? num1 / num2 : double.infinity;
-          break;
-        default:
-          result = 0.0;
-      }
-      _resultController.text = result.toString();
-    }
+    // Call the calculateSimpleLogic method
+    calculatorLogic.calculateSimpleLogic(
+      num1Controller: _num1Controller,
+      num2Controller: _num2Controller,
+      resultController: _resultController,
+      context: context,
+      operator: _operator,
+    );
   }
 }
