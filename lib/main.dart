@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tip_calculator_flutter/models/simple_calculator_model.dart';
 import 'package:tip_calculator_flutter/simple_calculator.dart';
 import 'package:tip_calculator_flutter/tip_calculator.dart';
 import 'package:tip_calculator_flutter/toast_helper.dart';
@@ -8,7 +10,12 @@ import 'grocery_list_view.dart';
 import 'text_styles.dart';
 
 void main() {
-  runApp( MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => SimpleCalculatorModel(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -73,40 +80,25 @@ class CustomApp extends StatelessWidget {
   void handleButtonClick(String operator , BuildContext context) {
     // Handle button click logic here
     ToastHelper.showToast(context, operator);
-    if(operator == "Simple Calculator"){
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const CalculatorScreen(),
-        ),
-      );
-    } else if(operator == "Tip Calculator"){
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>  TipCalculatorBody(billAmountController: billAmountController,logic:logic),
-        ),
-      );
-    }else{
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const GroceryListView(),
-        ),
-      );
-    }
+    navigateToNewScreen(context, operator);
   }
 
-  // void openSimpleCalculator(){
-  //   SimpleCalculatorLogic calculatorLogic = SimpleCalculatorLogic();
-  //
-  //   // Call the calculateSimpleLogic method
-  //   calculatorLogic.calculateSimpleLogic(
-  //     num1Controller: _num1Controller,
-  //     num2Controller: _num2Controller,
-  //     resultController: _resultController,
-  //     context: context,
-  //     operator: _operator,
-  //   );
-  // }
+  void navigateToNewScreen(BuildContext context, String operator) {
+    Map<String, Widget> screenMap = {
+      "Simple Calculator": const CalculatorScreen(),
+      "Tip Calculator": TipCalculatorBody(billAmountController: billAmountController, logic: logic),
+      "Grocery List View": const GroceryListView(),
+      // Add other screens as needed
+    };
+
+    Widget selectedScreen = screenMap[operator] ?? Container(); // Default to an empty Container if the operator is not found
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => selectedScreen,
+      ),
+    );
+  }
+
 }

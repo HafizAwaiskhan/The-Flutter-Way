@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tip_calculator_flutter/app_strings.dart';
 import 'package:tip_calculator_flutter/tip_calculator_logic.dart';
 import 'package:tip_calculator_flutter/toast_helper.dart';
 
 import 'main.dart';
+import 'models/simple_calculator_model.dart';
 
 class CalculatorScreen extends StatefulWidget {
   const CalculatorScreen({super.key});
@@ -13,13 +15,24 @@ class CalculatorScreen extends StatefulWidget {
 }
 
 class _CalculatorScreenState extends State<CalculatorScreen> {
-  final TextEditingController _num1Controller = TextEditingController();
-  final TextEditingController _num2Controller = TextEditingController();
-  final TextEditingController _resultController = TextEditingController();
+  late TextEditingController _num1Controller = TextEditingController();
+  late  TextEditingController _num2Controller = TextEditingController();
+  late TextEditingController _resultController = TextEditingController();
   String _operator = "";
 
   @override
+  void initState() {
+    super.initState();
+    // Initialize controllers with data from CalculatorData
+    final calculatorData = Provider.of<SimpleCalculatorModel>(context, listen: false);
+    _num1Controller = TextEditingController(text: calculatorData.num1.toString());
+    _num2Controller = TextEditingController(text: calculatorData.num2.toString());
+    _resultController = TextEditingController(text: calculatorData.result.toString());
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final calculatorModel = Provider.of<SimpleCalculatorModel>(context);
     return Scaffold(
       appBar: CustomApp.buildAppBar("Simple Calculator"),
         body: Container(
@@ -90,5 +103,13 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
       context: context,
       operator: _operator,
     );
+
+    final simpleCalculatorModel = Provider.of<SimpleCalculatorModel>(context, listen: false);
+    double num1 = double.tryParse(_num1Controller.text) ?? 0.0;
+    double num2 = double.tryParse(_num2Controller.text) ?? 0.0;
+    double result = num1 + num2; // Customize the calculation logic as needed
+
+    _resultController.text = result.toString();
+    simpleCalculatorModel.setValues(num1, num2, result);
   }
 }
