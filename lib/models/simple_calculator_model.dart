@@ -1,14 +1,14 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class SimpleCalculatorModel extends ChangeNotifier {
   double num1 = 0.0;
   double num2 = 0.0;
   double result = 0.0;
 
-  void setValues(double newNum1, double newNum2, double newResult) {
-    num1 = newNum1;
-    num2 = newNum2;
-    result = newResult;
+  void setValues(double num1, double num2, double result) {
+    this.num1 = num1;
+    this.num2 = num2;
+    this.result = result;
     notifyListeners();
   }
 }

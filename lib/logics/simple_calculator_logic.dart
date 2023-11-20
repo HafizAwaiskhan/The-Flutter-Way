@@ -1,19 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tip_calculator_flutter/toast_helper.dart';
-
-
-class TipCalculatorLogic {
-  double billAmount = 0.0;
-  double tipPercentage = 0.0;
-
-  double calculateTipAmount() {
-    return (billAmount * tipPercentage) / 100;
-  }
-
-  double calculateTotalAmount() {
-    return billAmount + calculateTipAmount();
-  }
-}
+import '../helper_classes/app_strings.dart';
+import '../helper_classes/toast_helper.dart';
 
 class SimpleCalculatorLogic {
   void calculateSimpleLogic({
@@ -28,11 +15,11 @@ class SimpleCalculatorLogic {
 
     // Check for empty values
     if (num1Text.isEmpty) {
-      ToastHelper.showToast(context, 'Please Enter 1st value');
+      ToastHelper.showToast(context, appStrings['enterFirstNumber']!);
       return;
     }
     if (num2Text.isEmpty) {
-      ToastHelper.showToast(context, 'Please Enter 2nd value');
+      ToastHelper.showToast(context, appStrings['enterSecondNumber']!);
       return;
     }
 
@@ -41,7 +28,7 @@ class SimpleCalculatorLogic {
     double result;
 
     if (operator == '') {
-      ToastHelper.showToast(context, 'Please Select some operator!!');
+      ToastHelper.showToast(context, appStrings['selectOperator']!);
     } else {
       switch (operator) {
         case "+":
