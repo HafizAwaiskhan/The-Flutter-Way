@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tip_calculator_flutter/app_strings.dart';
-import 'package:tip_calculator_flutter/text_styles.dart';
-import 'button_styles.dart';
-import 'main.dart';
+import 'package:tip_calculator_flutter/helper_classes/app_strings.dart';
+import 'package:tip_calculator_flutter/helper_classes/text_styles.dart';
+import '../helper_classes/button_styles.dart';
+import '../main.dart';
 
 class GroceryListView extends StatefulWidget {
   const GroceryListView({super.key});
@@ -20,33 +20,34 @@ class _GroceryListViewState extends State<GroceryListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomApp.buildAppBar("List/Grid View"),
-    body: Container(
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: _listSizeController,
-              decoration: InputDecoration(labelText: appStrings['enterListSize']),
-              keyboardType: TextInputType.number,
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(right: 10.0),
-                child: buildButton(),
+      appBar: CustomApp.buildAppBar("List/Grid View"),
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                controller: _listSizeController,
+                decoration:
+                    InputDecoration(labelText: appStrings['enterListSize']),
+                keyboardType: TextInputType.number,
               ),
-            ],
-          ),
-          Expanded(
-            child: isGrid ? buildGridView() : buildListView(),
-          ),
-        ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: buildButton(),
+                ),
+              ],
+            ),
+            Expanded(
+              child: isGrid ? buildGridView() : buildListView(),
+            ),
+          ],
+        ),
       ),
-    ),
     );
   }
 
@@ -60,7 +61,9 @@ class _GroceryListViewState extends State<GroceryListView> {
           // Toggle between list and grid layouts
           isGrid = !isGrid;
           // Change button text accordingly
-          buttonText = (isGrid ? appStrings['switchToListView'] : appStrings['switchToGridView'])!;
+          buttonText = (isGrid
+              ? appStrings['switchToListView']
+              : appStrings['switchToGridView'])!;
         });
       },
       style: ButtonStyles.primaryButtonStyle(Colors.blue),
@@ -73,7 +76,7 @@ class _GroceryListViewState extends State<GroceryListView> {
   List<String> generateGroceryList(int listSize) {
     return List.generate(
       listSize,
-          (index) => 'Item ${index + 1}',
+      (index) => 'Item ${index + 1}',
     );
   }
 
@@ -87,12 +90,13 @@ class _GroceryListViewState extends State<GroceryListView> {
           margin: const EdgeInsets.all(8.0),
           color: Colors.lightBlueAccent,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0), // Adjust the radius as needed
+            borderRadius:
+                BorderRadius.circular(12.0), // Adjust the radius as needed
           ),
           child: ListTile(
             title: Text(groceryList[index],
                 style: CustomTextStyles.textStyle24BoldWhite),
-            trailing: const Icon(Icons.star,size: 48.0, color: Colors.white),
+            trailing: const Icon(Icons.star, size: 48.0, color: Colors.white),
             subtitle: Text(
                 '${appStrings['itemDescription']} ${groceryList[index]}',
                 style: CustomTextStyles.textStyle14RegularWhite),
@@ -101,7 +105,6 @@ class _GroceryListViewState extends State<GroceryListView> {
       },
     );
   }
-
 
   /// this will build the Grid view widget
 
@@ -116,20 +119,20 @@ class _GroceryListViewState extends State<GroceryListView> {
           margin: const EdgeInsets.all(8.0),
           color: Colors.lightBlueAccent,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0), // Adjust the radius as needed
+            borderRadius:
+                BorderRadius.circular(12.0), // Adjust the radius as needed
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const Icon(Icons.star, size: 48.0, color: Colors.white),
-              Text(groceryList[index],
-                  style: CustomTextStyles.textStyle24BoldWhite,
-                ),
               Text(
-                  '${appStrings['itemDescription']} ${groceryList[index]}',
-                  textAlign: TextAlign.center,
-              style: CustomTextStyles.textStyle14RegularWhite
+                groceryList[index],
+                style: CustomTextStyles.textStyle24BoldWhite,
               ),
+              Text('${appStrings['itemDescription']} ${groceryList[index]}',
+                  textAlign: TextAlign.center,
+                  style: CustomTextStyles.textStyle14RegularWhite),
             ],
           ),
         );

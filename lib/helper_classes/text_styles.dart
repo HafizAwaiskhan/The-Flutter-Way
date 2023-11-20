@@ -21,10 +21,8 @@ class CustomTextStyles {
       color: Colors.white
   );
   static final textStyle14RegularWhite = GoogleFonts.roboto(
-    fontSize: 14.0,
-    fontWeight: FontWeight.w400,
+      fontSize: 14.0,
+      fontWeight: FontWeight.w400,
       color: Colors.white
-
   );
 }
-

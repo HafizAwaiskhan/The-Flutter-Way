@@ -1,38 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tip_calculator_flutter/models/simple_calculator_model.dart';
-import 'package:tip_calculator_flutter/simple_calculator.dart';
-import 'package:tip_calculator_flutter/tip_calculator.dart';
-import 'package:tip_calculator_flutter/toast_helper.dart';
-import 'app_strings.dart';
-import 'tip_calculator_logic.dart';
-import 'grocery_list_view.dart';
-import 'text_styles.dart';
+import 'package:tip_calculator_flutter/views/bottom_navigation_view.dart';
+import 'package:tip_calculator_flutter/views/simple_calculator_view.dart';
+import 'package:tip_calculator_flutter/views/tip_calculator_view.dart';
+import 'package:tip_calculator_flutter/helper_classes/toast_helper.dart';
+import 'helper_classes/app_strings.dart';
+import 'logics/tip_calculator_logic.dart';
+import 'models/tip_calculator_model.dart';
+import 'views/grocery_list_view.dart';
+import 'helper_classes/text_styles.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => SimpleCalculatorModel(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<SimpleCalculatorModel>(
+            create: (context) => SimpleCalculatorModel()),
+        ChangeNotifierProvider<TipCalculatorModel>(
+            create: (context) => TipCalculatorModel()),
+        // Provide the TipCalculatorModel
+      ],
       child: MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: CustomApp()
-    );
+    return MaterialApp(home: CustomApp());
   }
 }
 
 class CustomApp extends StatelessWidget {
   CustomApp({super.key});
-
-  final TextEditingController billAmountController = TextEditingController();
-  final TipCalculatorLogic logic = TipCalculatorLogic();
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +44,16 @@ class CustomApp extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Center vertically
-            crossAxisAlignment: CrossAxisAlignment.center, // Center horizontally
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            // Center vertically
+            crossAxisAlignment: CrossAxisAlignment.center,
+            // Center horizontally
             children: <Widget>[
               _buildNavigationButton(appStrings['simpleCalculator']!, context),
               _buildNavigationButton(appStrings['tipCalculator']!, context),
               _buildNavigationButton(appStrings['listGridView']!, context),
+              _buildNavigationButton(
+                  appStrings['bottomNavigationView']!, context),
             ],
           ),
         ),
@@ -65,7 +71,7 @@ class CustomApp extends StatelessWidget {
     );
   }
 
-  Widget _buildNavigationButton(String operator , BuildContext context) {
+  Widget _buildNavigationButton(String operator, BuildContext context) {
     return ElevatedButton(
       onPressed: () {
         handleButtonClick(operator, context);
@@ -77,7 +83,7 @@ class CustomApp extends StatelessWidget {
     );
   }
 
-  void handleButtonClick(String operator , BuildContext context) {
+  void handleButtonClick(String operator, BuildContext context) {
     // Handle button click logic here
     ToastHelper.showToast(context, operator);
     navigateToNewScreen(context, operator);
@@ -86,12 +92,14 @@ class CustomApp extends StatelessWidget {
   void navigateToNewScreen(BuildContext context, String operator) {
     Map<String, Widget> screenMap = {
       "Simple Calculator": const CalculatorScreen(),
-      "Tip Calculator": TipCalculatorBody(billAmountController: billAmountController, logic: logic),
+      "Tip Calculator": const TipCalculator(),
       "Grocery List View": const GroceryListView(),
+      "Bottom Navigation View": const BottomNavigation()
       // Add other screens as needed
     };
 
-    Widget selectedScreen = screenMap[operator] ?? Container(); // Default to an empty Container if the operator is not found
+    Widget selectedScreen = screenMap[operator] ??
+        Container(); // Default to an empty Container if the operator is not found
 
     Navigator.push(
       context,
@@ -100,5 +108,4 @@ class CustomApp extends StatelessWidget {
       ),
     );
   }
-
 }
